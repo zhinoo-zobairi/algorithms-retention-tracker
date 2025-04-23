@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import os
+import yaml
 from pathlib import Path
 import sys
-import yaml
 import requests
 from datetime import datetime, date
 
@@ -14,7 +14,7 @@ try:
     REPO = os.environ["REPO"]
     GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
 except KeyError as e:
-    print(f"❌ Required environment variable {e} not found!")
+    print(f"Required environment variable {e} not found!")
     sys.exit(1)
 
 def parse_date(date_field):
@@ -44,17 +44,17 @@ def create_github_issue(title, body):
     
     response = requests.post(url, headers=headers, json=data)
     if response.status_code == 201:
-        print(f"✅ Successfully created issue: {title}")
+        print(f"Successfully created issue: {title} ✅")
         return True
     else:
-        print(f"❌ Failed to create issue. Status code: {response.status_code}")
+        print(f"Failed to create issue. Status code: {response.status_code}")
         print(f"Response: {response.text}")
         return False
 
 def main():
     """Main function to check for algorithms needing review."""
     if not METADATA_DIR.exists() or not METADATA_DIR.is_dir():
-        print(f"❌ Metadata directory '{METADATA_DIR}' not found!")
+        print(f"Metadata directory '{METADATA_DIR}' not found!")
         sys.exit(1)
 
     reminders_created = 0
@@ -100,9 +100,9 @@ It's been {days_since} days since you learned this algorithm.
                         reminders_created += 1
 
         except Exception as e:
-            print(f"❌ Error processing file {file_path.name}: {str(e)}")
+            print(f"Error processing file {file_path.name}: {str(e)}")
 
-    print(f"✅ Reminder check complete. Created {reminders_created} reminder issue(s).")
+    print(f"Reminder check complete. Created {reminders_created} reminder issue(s). ✅")
 
 if __name__ == "__main__":
     main()
