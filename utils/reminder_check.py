@@ -53,25 +53,28 @@ def create_github_issue(title, body):
         return False
 
 def create_review_file(algo_name, algo_dir, day_number):
-    """Create a review file in the algorithm's directory."""
+    """Create a review file in the algorithm's directory and commit it to GitHub."""
     algo_folder_name = algo_name.lower().replace(' ', '_')
-    
     algo_path = ALGORITHMS_DIR / algo_folder_name
+
+    # Check fallback directory
     if not algo_path.exists():
-        print(f"⚠️ Algorithm directory for {algo_name} not found at {algo_path}")
+        print(f"⚠️ Default folder not found for {algo_name} at {algo_path}")
         if algo_dir and Path(algo_dir).exists():
             algo_path = Path(algo_dir)
+            print(f"Using fallback directory: {algo_path}")
         else:
-            print(f"Cannot create review file - directory not found")
+            print("Cannot create review file — algorithm directory missing.")
             return False
-    
+
+    # Build review file path
     review_file = algo_path / f"review_day_{day_number}.py"
-    
     if review_file.exists():
-        print(f"Review file {review_file} already exists, skipping creation")
+        print(f"⚠️ Review file already exists: {review_file}")
         return False
-        
-    # Generate content based on review day
+
+    # Generate review file content
+    slug = algo_name.lower().replace(' ', '_')
     content = f"""# Review Day {day_number} for {algo_name}
 # Created on {TODAY.strftime('%Y-%m-%d')}
 
@@ -80,7 +83,7 @@ This is your review exercise for {algo_name}.
 Complete the implementation below to reinforce your understanding.
 '''
 
-def {algo_name.lower().replace(' ', '_')}(items):
+def {slug}(items):
     \"\"\"
     Implementation of {algo_name}
     
@@ -89,18 +92,23 @@ def {algo_name.lower().replace(' ', '_')}(items):
     # Your implementation here
     pass
 
-
-# Test your implementation
 if __name__ == "__main__":
-    # Add test cases here
     test_data = [5, 2, 9, 1, 5, 6]
-    result = {algo_name.lower().replace(' ', '_')}(test_data)
+    result = {slug}(test_data)
     print(f"Result: {{result}}")
 """
 
     # Write the file
     review_file.write_text(content)
-    print(f"Created review file: {review_file} ✅")
+    print(f"✅ Created review file: {review_file}")
+
+    # Commit and push
+    os.system("git config user.name 'github-actions'")
+    os.system("git config user.email 'github-actions@github.com'")
+    os.system(f"git add {review_file}")
+    os.system(f"git commit -m '📝 Add {review_file.name} for spaced repetition review'")
+    os.system("git push")
+
     return True
 
 def main():
