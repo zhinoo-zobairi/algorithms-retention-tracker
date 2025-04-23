@@ -132,9 +132,9 @@ def main():
 
                 notes_path = data.get("notes_path", "")
                 algo_dir = data.get("algorithm_dir", "")
-                
+                base_url = f"https://github.com/{REPO}/blob/master"
                 if notes_path:
-                    notes_md = f"- [View your notes]({notes_path})"
+                    notes_md = f"- [View your notes]({base_url}/{notes_path})" if notes_path else "*No notes path provided.*"
                 else:
                     notes_md = "*No notes path provided.*"
 
@@ -147,7 +147,7 @@ def main():
                     algo_folder_name = algo.lower().replace(' ', '_')
                     review_file_path = f"algorithms/{algo_folder_name}/review_day_{days_since}.py"
                     if Path(review_file_path).exists():
-                        review_file_link = f"- [Complete today's review exercise]({review_file_path})"
+                        review_file_link = f"- [Complete today's review exercise]({base_url}/{review_file_path})" if Path(review_file_path).exists() else ""
                     
                     title = f"Review Reminder: {algo} (Day {days_since})"
                     body = f"""## Time to review {algo}!
