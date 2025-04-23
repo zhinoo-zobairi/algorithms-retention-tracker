@@ -1,0 +1,27 @@
+name: Auto Generate Metadata from GitHub Issue
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write 
+
+jobs:
+  generate-metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install pyyaml requests #GitHub’s runner gives us a clean environment with Python pre-installed but only standard libraries and any external dependency like requests, flask, or numpy must be explicitly installed
+      - name: Run generator script
+        run: python utils/generate_metadata_from_issue.py
+        env:
+          GH_EVENT_PATH: ${{ github.event_path }} # This gives our Python script access to the event data from GitHub (in this case, the Issue). GitHub Actions automatically stores incoming event data (like issue title, labels, comments, etc.) in a JSON file at github.event_path. We pass it as an env variable.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
