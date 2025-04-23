@@ -63,7 +63,7 @@ headers = {
     "Accept": "application/vnd.github.v3+json"
 }
 comment_body = {
-    "body": f"Metadata and starter files for **{algo_name}** were created!\n\n Your first review reminder will arrive tomorrow. Keep learning strong! 💪"
+    "body": f"Metadata and starter files for **{algo_name}** were created!\n\n Your first review reminder will arrive tomorrow. Keep learning strong till the dancing victory! 💪"
 }
 
 response = requests.post(comment_url, headers=headers, json=comment_body)
