@@ -4,7 +4,7 @@ from pathlib import Path
 import sys
 import yaml
 import requests
-from datetime import datetime
+from datetime import datetime, date
 
 METADATA_DIR = Path("metadata")
 TODAY = datetime.now().date()
@@ -22,11 +22,11 @@ def parse_date(date_field):
         return date_field.date()
     elif isinstance(date_field, str):
         return datetime.strptime(date_field, "%Y-%m-%d").date()
-    elif isinstance(date_field, datetime.date):
+    elif isinstance(date_field, date):
         return date_field
     else:
         raise ValueError(f"Unsupported date format: {date_field}")
-
+    
 def create_github_issue(title, body):
     """Create a GitHub issue using the REST API."""
     print(f"Creating issue: {title}")
