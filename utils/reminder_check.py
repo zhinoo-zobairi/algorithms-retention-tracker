@@ -95,7 +95,7 @@ if __name__ == "__main__":
     # Add test cases here
     test_data = [5, 2, 9, 1, 5, 6]
     result = {algo_name.lower().replace(' ', '_')}(test_data)
-    print(f"Result: {result}")
+    print(f"Result: {{result}}")
 """
 
     # Write the file
