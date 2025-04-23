@@ -71,6 +71,7 @@ def create_review_file(algo_name, algo_dir, day_number):
     review_file = algo_path / f"review_day_{day_number}.py"
     if review_file.exists():
         print(f"⚠️ Review file already exists: {review_file}")
+        print("🔍 Skipping creation and push.")
         return False
 
     # Generate review file content
@@ -103,11 +104,13 @@ if __name__ == "__main__":
     print(f"✅ Created review file: {review_file}")
 
     # Commit and push
+    # Commit and push (ensure branch is correct)
+    os.system("git checkout -B master")  # Switch to a local 'master' branch
     os.system("git config user.name 'github-actions'")
     os.system("git config user.email 'github-actions@github.com'")
     os.system(f"git add {review_file}")
-    os.system(f"git commit -m '📝 Add {review_file.name} for spaced repetition review'")
-    os.system("git push")
+    os.system(f"git commit -m 'Add {review_file.name} for spaced repetition review'")
+    os.system("git push origin master")
 
     return True
 
