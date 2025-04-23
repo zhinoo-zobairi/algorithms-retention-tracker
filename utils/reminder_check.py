@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 import os
 import yaml
+import base64
 from pathlib import Path
 import sys
 import requests
-import base64
 from datetime import datetime, date
 
 METADATA_DIR = Path("metadata")
@@ -54,13 +54,28 @@ def create_github_issue(title, body):
         return False
 
 def create_review_file(algo_name, algo_dir, day_number):
-    """Create a review file in the algorithm's directory using GitHub API."""
+    """Create a review file in the algorithm's directory and commit it to GitHub."""
     algo_folder_name = algo_name.lower().replace(' ', '_')
-    algo_path = f"algorithms/{algo_folder_name}"
-    
+    algo_path = ALGORITHMS_DIR / algo_folder_name
+
+    # Check fallback directory or create one if needed
+    if not algo_path.exists():
+        print(f"⚠️ Default folder not found for {algo_name} at {algo_path}")
+        if algo_dir and Path(algo_dir).exists():
+            algo_path = Path(algo_dir)
+            print(f"Using fallback directory: {algo_path}")
+        else:
+            # Create the directory if it doesn't exist
+            algo_path.mkdir(parents=True, exist_ok=True)
+            print(f"Created new directory: {algo_path}")
+
     # Build review file path
-    review_file_path = f"{algo_path}/review_day_{day_number}.py"
-    
+    review_file = algo_path / f"review_day_{day_number}.py"
+    if review_file.exists():
+        print(f"⚠️ Review file already exists: {review_file}")
+        print("🔍 Skipping creation and push.")
+        return False
+
     # Generate review file content
     slug = algo_name.lower().replace(' ', '_')
     content = f"""# Review Day {day_number} for {algo_name}
@@ -86,35 +101,28 @@ if __name__ == "__main__":
     print(f"Result: {{result}}")
 """
 
-    # Create or update file through GitHub API
-    url = f"https://api.github.com/repos/{REPO}/contents/{review_file_path}"
-    headers = {
-        'Authorization': f'token {GITHUB_TOKEN}',
-        'Accept': 'application/vnd.github.v3+json'
-    }
+    # Write the file
+    review_file.write_text(content)
+    print(f"Created review file: {review_file}")
+
+    # Commit and push with error checking
+    commands = [
+        "git config user.name 'github-actions'",
+        "git config user.email 'github-actions@github.com'",
+        f"git add {review_file}",
+        f"git commit -m 'Add {review_file.name} for spaced repetition review'",
+        "git push"
+    ]
     
-    # Check if file exists first
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        # File exists
-        print(f"⚠️ Review file already exists: {review_file_path}")
-        return False
+    for cmd in commands:
+        print(f"Executing: {cmd}")
+        result = os.system(cmd)
+        if result != 0:
+            print(f"Command failed: {cmd} (exit code: {result})")
+            return False
     
-    # Create the file
-    data = {
-        'message': f'Add {review_file_path} for spaced repetition review',
-        'content': base64.b64encode(content.encode()).decode(),
-        'branch': 'master'
-    }
-    
-    response = requests.put(url, headers=headers, json=data)
-    if response.status_code in [201, 200]:
-        print(f"✅ Created review file: {review_file_path}")
-        return True
-    else:
-        print(f"Failed to create review file. Status code: {response.status_code}")
-        print(f"Response: {response.text}")
-        return False
+    print("Git operations completed successfully")
+    return True
 
 def main():
     """Main function to check for algorithms needing review."""

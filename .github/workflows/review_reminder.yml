@@ -7,7 +7,7 @@ on:
 # Top-level (global) permission block
 permissions:
   issues: write 
-  contents: read 
+  contents: write 
 
 jobs:
   review_reminder:
