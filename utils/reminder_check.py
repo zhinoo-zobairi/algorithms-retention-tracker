@@ -17,9 +17,15 @@ except KeyError as e:
     print(f"❌ Required environment variable {e} not found!")
     sys.exit(1)
 
-def parse_date(date_str):
-    """Parse a date string in YYYY-MM-DD format."""
-    return datetime.strptime(date_str, "%Y-%m-%d").date()
+def parse_date(date_field):
+    if isinstance(date_field, datetime):
+        return date_field.date()
+    elif isinstance(date_field, str):
+        return datetime.strptime(date_field, "%Y-%m-%d").date()
+    elif isinstance(date_field, datetime.date):
+        return date_field
+    else:
+        raise ValueError(f"Unsupported date format: {date_field}")
 
 def create_github_issue(title, body):
     """Create a GitHub issue using the REST API."""
