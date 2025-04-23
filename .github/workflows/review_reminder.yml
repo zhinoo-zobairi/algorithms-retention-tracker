@@ -1,26 +1,27 @@
 name: Daily Spaced Repetition Checker
-
 on:
   schedule:
-    - cron: '0 6 * * *' 
-  workflow_dispatch: 
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+# Top-level (global) permission block
+permissions:
+  issues: write 
+  contents: read 
 
 jobs:
   review_reminder:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
       - name: Install dependencies
         run: pip install pyyaml requests
-
-      - name: Create issue if needed
+      - name: Run spaced repetition checker
         run: python utils/reminder_check.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
