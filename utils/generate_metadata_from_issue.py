@@ -25,6 +25,7 @@ slug = algo_name.lower().replace(" ", "_")
 metadata_path = Path(f"metadata/{slug}.yaml")
 notes_dir = Path(f"algorithms/{slug}")
 notes_file = notes_dir / "notes.md"
+code_file = notes_dir / "code.py"
 
 if metadata_path.exists():
     print(f"⚠️ Metadata already exists for {algo_name}")
@@ -33,6 +34,8 @@ if metadata_path.exists():
 notes_dir.mkdir(parents=True, exist_ok=True)
 
 notes_file.write_text(f"# {algo_name}\n\nAdd your notes here.")
+safe_func_name = re.sub(r'\W|^(?=\d)', '_', slug)
+code_file.write_text(f"# {algo_name} implementation\n\ndef {safe_func_name}():\n    pass\n")
 
 metadata = {
     "algorithm": algo_name,
@@ -48,6 +51,6 @@ print(f"Notes initialized at {notes_file}")
 
 os.system("git config user.name 'github-actions'")
 os.system("git config user.email 'github-actions@github.com'")
-os.system(f"git add {metadata_path} {notes_file}")
+os.system(f"git add {metadata_path} {notes_file} {code_file}")
 os.system(f"git commit -m 'Auto-generate metadata for {algo_name}'")
 os.system("git push")
