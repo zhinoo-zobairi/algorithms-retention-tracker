@@ -4,6 +4,7 @@ import yaml
 from pathlib import Path
 import json
 import re
+import requests
 from datetime import datetime
 
 
@@ -54,3 +55,20 @@ os.system("git config user.email 'github-actions@github.com'")
 os.system(f"git add {metadata_path} {notes_file} {code_file}")
 os.system(f"git commit -m 'Auto-generate metadata for {algo_name}'")
 os.system("git push")
+
+# Post a comment back on the original issue
+comment_url = event["issue"]["comments_url"]
+headers = {
+    "Authorization": f"token {os.environ['GH_TOKEN']}",
+    "Accept": "application/vnd.github.v3+json"
+}
+comment_body = {
+    "body": f"Metadata and starter files for **{algo_name}** were created!\n\n🧠 Your first review reminder will arrive tomorrow. Keep learning strong! 💪"
+}
+
+response = requests.post(comment_url, headers=headers, json=comment_body)
+if response.status_code == 201:
+    print("Comment posted on issue.")
+else:
+    print(f"Failed to post comment: {response.status_code}")
+    print(response.text)
