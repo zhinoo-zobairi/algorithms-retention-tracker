@@ -12,6 +12,13 @@ ALGORITHMS_DIR = Path("algorithms")
 TODAY = datetime.now().date()
 REMINDER_DAYS = [1, 3, 7, 14]
 
+LANGUAGE_CONFIG = {
+    1: {"extension": "c", "display_name": "C"},
+    3: {"extension": "java", "display_name": "Java"},
+    7: {"extension": "js", "display_name": "JavaScript"},
+    14: {"extension": "py", "display_name": "Python"}
+}
+
 try:
     REPO = os.environ["REPO"]
     GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
@@ -53,33 +60,96 @@ def create_github_issue(title, body):
         print(f"Response: {response.text}")
         return False
 
-def create_review_file(algo_name, algo_dir, day_number):
-    """Create a review file in the algorithm's directory and commit it to GitHub."""
-    algo_folder_name = algo_name.lower().replace(' ', '_')
-    algo_path = ALGORITHMS_DIR / algo_folder_name
+def get_template_for_language(language, algo_name, slug, day_number, today_str):
+    """Generate code template based on programming language."""
+        
+    templates = {
+        "c": f"""/**
+ * Review Day {day_number} for {algo_name}
+ * Created on {today_str}
+ *
+ * This is your review exercise for {algo_name}.
+ * Complete the implementation below to reinforce your understanding.
+ */
 
-    # Check fallback directory or create one if needed
-    if not algo_path.exists():
-        print(f"⚠️ Default folder not found for {algo_name} at {algo_path}")
-        if algo_dir and Path(algo_dir).exists():
-            algo_path = Path(algo_dir)
-            print(f"Using fallback directory: {algo_path}")
-        else:
-            # Create the directory if it doesn't exist
-            algo_path.mkdir(parents=True, exist_ok=True)
-            print(f"Created new directory: {algo_path}")
+#include <stdio.h>
+#include <stdlib.h>
 
-    # Build review file path
-    review_file = algo_path / f"review_day_{day_number}.py"
-    if review_file.exists():
-        print(f"⚠️ Review file already exists: {review_file}")
-        print("🔍 Skipping creation and push.")
-        return False
+/**
+ * Implementation of {algo_name}
+ * TODO: Implement the algorithm from memory to reinforce your learning
+ */
+void {slug}(int items[], int size) {
+    // Your implementation here
+}
 
-    # Generate review file content
-    slug = algo_name.lower().replace(' ', '_')
-    content = f"""# Review Day {day_number} for {algo_name}
-# Created on {TODAY.strftime('%Y-%m-%d')}
+int main() {
+    int test_data[] = {5, 2, 9, 1, 5, 6};
+    int size = sizeof(test_data) / sizeof(test_data[0]);
+    
+    {slug}(test_data, size);
+    
+    printf("Result: ");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", test_data[i]);
+    }
+    printf("\\n");
+    
+    return 0;
+}
+""",
+        "java": f"""/**
+ * Review Day {day_number} for {algo_name}
+ * Created on {today_str}
+ *
+ * This is your review exercise for {algo_name}.
+ * Complete the implementation below to reinforce your understanding.
+ */
+
+import java.util.Arrays;
+
+public class {slug.title().replace('_', '')} {{
+    /**
+     * Implementation of {algo_name}
+     * TODO: Implement the algorithm from memory to reinforce your learning
+     */
+    public static void {slug}(int[] items) {{
+        // Your implementation here
+    }}
+    
+    public static void main(String[] args) {{
+        int[] testData = {{5, 2, 9, 1, 5, 6}};
+        {slug}(testData);
+        System.out.println("Result: " + Arrays.toString(testData));
+    }}
+}}
+""",
+        "js": f"""/**
+ * Review Day {day_number} for {algo_name}
+ * Created on {today_str}
+ *
+ * This is your review exercise for {algo_name}.
+ * Complete the implementation below to reinforce your understanding.
+ */
+
+/**
+ * Implementation of {algo_name}
+ * @param {{Array}} items - The array to process
+ * @returns {{Array}} - The processed array
+ * TODO: Implement the algorithm from memory to reinforce your learning
+ */
+function {slug}(items) {{
+    // Your implementation here
+    return items;
+}}
+
+// Test the implementation
+const testData = [5, 2, 9, 1, 5, 6];
+const result = {slug}(testData);
+console.log(`Result: ${{result}}`);
+""",
+        "py": f"""# Review Day {day_number} for {algo_name}
+# Created on {today_str}
 
 '''
 This is your review exercise for {algo_name}.
@@ -100,17 +170,52 @@ if __name__ == "__main__":
     result = {slug}(test_data)
     print(f"Result: {{result}}")
 """
+    }
+    
+    return templates.get(language, templates["py"])  # Default to Python if language not found
 
+def create_review_file(algo_name, algo_dir, day_number, language_config):
+    """Create a review file in the algorithm's directory and commit it to GitHub."""
+    algo_folder_name = algo_name.lower().replace(' ', '_')
+    algo_path = ALGORITHMS_DIR / algo_folder_name
+
+    # Get language configuration for this day
+    extension = language_config["extension"]
+    language_name = language_config["display_name"]
+    
+    # Check fallback directory or create one if needed
+    if not algo_path.exists():
+        print(f"⚠️ Default folder not found for {algo_name} at {algo_path}")
+        if algo_dir and Path(algo_dir).exists():
+            algo_path = Path(algo_dir)
+            print(f"Using fallback directory: {algo_path}")
+        else:
+            # Create the directory if it doesn't exist
+            algo_path.mkdir(parents=True, exist_ok=True)
+            print(f"Created new directory: {algo_path}")
+
+    # Build review file path
+    review_file = algo_path / f"review_day_{day_number}.{extension}"
+    if review_file.exists():
+        print(f"⚠️ Review file already exists: {review_file}")
+        print("🔍 Skipping creation and push.")
+        return False
+
+    # Generate review file content
+    slug = algo_name.lower().replace(' ', '_')
+    # Get today's date
+    today_str = TODAY.strftime('%Y-%m-%d')
+    content = get_template_for_language(extension, algo_name, slug, day_number, today_str)
     # Write the file
     review_file.write_text(content)
-    print(f"Created review file: {review_file}")
+    print(f"Created {language_name} review file: {review_file}")
 
     # Commit and push with error checking
     commands = [
         "git config user.name 'github-actions'",
         "git config user.email 'github-actions@github.com'",
         f"git add {review_file}",
-        f"git commit -m 'Add {review_file.name} for spaced repetition review'",
+        f"git commit -m 'Add {language_name} review file for {algo_name} (Day {day_number})'",
         "git push"
     ]
     
@@ -160,22 +265,28 @@ def main():
                     notes_md = "*No notes path provided.*"
 
                 if days_since in REMINDER_DAYS:
-                    review_file_created = create_review_file(algo, algo_dir, days_since)
+                    # Get the language for this reminder day
+                    language_config = LANGUAGE_CONFIG.get(days_since, {"extension": "py", "display_name": "Python"})
+                    extension = language_config["extension"]
+                    language_name = language_config["display_name"]
+                    
+                    review_file_created = create_review_file(algo, algo_dir, days_since, language_config)
                     if review_file_created:
                         review_files_created += 1
                     
                     review_file_link = ""
                     algo_folder_name = algo.lower().replace(' ', '_')
-                    review_file_path = f"algorithms/{algo_folder_name}/review_day_{days_since}.py"
-                    if Path(review_file_path).exists():
-                        review_file_link = f"- [Complete today's review exercise]({base_url}/{review_file_path})" if Path(review_file_path).exists() else ""
+                    review_file_path = f"algorithms/{algo_folder_name}/review_day_{days_since}.{extension}"
                     
-                    title = f"Review Reminder: {algo} (Day {days_since})"
-                    body = f"""## Time to review {algo}!
+                    if Path(review_file_path).exists():
+                        review_file_link = f"- [Complete today's {language_name} review exercise]({base_url}/{review_file_path})"
+                    
+                    title = f"Review Reminder: {algo} (Day {days_since} - {language_name})"
+                    body = f"""## Time to review {algo} in {language_name}!
 
-It's been {days_since} days since you learned this algorithm.
+It's been {days_since} days since you learned this algorithm. Today's review is in **{language_name}**.
 
-**Spaced repetition** helps move knowledge to long-term memory.
+**Spaced repetition** helps move knowledge to long-term memory. Implementing the same algorithm in different languages reinforces your understanding of the core concepts.
 
 ### Review Material:
 {notes_md}
