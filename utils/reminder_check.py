@@ -62,7 +62,7 @@ def create_github_issue(title, body):
 
 def get_template_for_language(language, algo_name, slug, day_number, today_str):
     """Generate code template based on programming language."""
-        
+
     templates = {
         "c": f"""/**
  * Review Day {day_number} for {algo_name}
@@ -79,24 +79,24 @@ def get_template_for_language(language, algo_name, slug, day_number, today_str):
  * Implementation of {algo_name}
  * TODO: Implement the algorithm from memory to reinforce your learning
  */
-void {slug}(int items[], int size) {
-    // Your implementation here
-}
+void {slug}(int items[], int size) {{
+    /* Your implementation here */
+}}
 
-int main() {
-    int test_data[] = {5, 2, 9, 1, 5, 6};
+int main() {{
+    int test_data[] = {{5, 2, 9, 1, 5, 6}};
     int size = sizeof(test_data) / sizeof(test_data[0]);
     
     {slug}(test_data, size);
     
     printf("Result: ");
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {{
         printf("%d ", test_data[i]);
-    }
+    }}
     printf("\\n");
     
     return 0;
-}
+}}
 """,
         "java": f"""/**
  * Review Day {day_number} for {algo_name}
