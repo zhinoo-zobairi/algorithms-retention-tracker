@@ -36,7 +36,7 @@ int main() {
     
     printf("Result: ");
     for (int i = 0; i < size; i++) {
-        printf("%d ", test_data[i]);
+        printf("%d ", test_data[i]); 
     }
     printf("\n");
     
