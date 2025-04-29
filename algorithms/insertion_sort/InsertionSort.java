@@ -9,12 +9,17 @@
 import java.util.Arrays;
 
 public class InsertionSort {
-    /**
-     * Implementation of Insertion Sort
-     * TODO: Implement the algorithm from memory to reinforce your learning
-     */
+    
     public static void insertion_sort(int[] items) {
-        // Your implementation here
+        for (int i = 1; i < items.length; i++){
+            int temp = items[i];
+            int j = i - 1;
+            while (j>=0 && items[j] > temp){
+                items[j+1] = items[j];
+                j--;
+            }
+            items[j+1] = temp;
+        }
     }
     
     public static void main(String[] args) {
