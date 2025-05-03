@@ -13,7 +13,15 @@
  * TODO: Implement the algorithm from memory to reinforce your learning
  */
 function insertion_sort(items) {
-    // Your implementation here
+    for (let i = 1; i < items.length; i++) {
+        const key = items[i];
+        let j = i-1;
+        while (items[j]>key && j>= 0) {
+            items[j+1] = items[j];
+            j= j-1;
+        }
+        items[j+1] = key;
+    }
     return items;
 }
 
