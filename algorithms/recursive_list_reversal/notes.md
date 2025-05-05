@@ -69,3 +69,25 @@ Here, the program asks the user for a size and allocates an array dynamically wh
 
 ---
 
+# Java Implementation Notes
+## Instance vs. Static Method — The "Laptop" Analogy
+
+When working with `this.result` vs. passing inputs, think of it like **company vs. student laptops**.
+
+| Situation                        | Instance Method (`this.result`)                                  | Static Method (passing result as argument)                  |
+|---------------------------------|------------------------------------------------------------------|-------------------------------------------------------------|
+| **Analogy**                     | Company gives you a laptop                                    | You bring your own laptop every day                      |
+| **Who owns the result list?**   | The object ("Jînno" → `this.result`)                            | You, the caller, pass it in and take it back (return value) |
+| **Memory persistence**          | Stays with the object across method calls                       | Must be passed in and returned every time                   |
+| **Example**                     | `result.add(...)` uses the instance’s memory                    | `result.add(...)` uses the caller’s list                    |
+| **Code Example**                | `public void reverse_helper(...) { result.add(...); }`          | `public static List<Integer> reverse(...) { ... return result; }` |
+| **Returning data**              | Often no need to return → data stays in the object              | Must return the result list to keep track of changes        |
+
+---
+
+### Why?
+
+- **Instance method** → You already have a storage (company laptop). No need to "carry" results.
+- **Static method** → Every time, you must *bring* your data in and *take* it back out.
+
+---

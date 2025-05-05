@@ -10,13 +10,18 @@ from datetime import datetime, date
 METADATA_DIR = Path("metadata")
 ALGORITHMS_DIR = Path("algorithms")
 TODAY = datetime.now().date()
-REMINDER_DAYS = [1, 3, 7, 14]
+REMINDER_DAYS = [1, 3, 7, 14, 28, 56, 112, 224, 365]
 
 LANGUAGE_CONFIG = {
     1: {"extension": "c", "display_name": "C"},
     3: {"extension": "java", "display_name": "Java"},
     7: {"extension": "js", "display_name": "JavaScript"},
-    14: {"extension": "py", "display_name": "Python"}
+    14: {"extension": "py", "display_name": "Python"},
+    28: {"extension": "c", "display_name": "C"},
+    56: {"extension": "java", "display_name": "Java"},
+    112: {"extension": "js", "display_name": "JavaScript"},
+    224: {"extension": "c", "display_name": "C"},
+    365: {"extension": "java", "display_name": "Java"}
 }
 
 try:
