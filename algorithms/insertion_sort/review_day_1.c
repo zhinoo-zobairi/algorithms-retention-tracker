@@ -16,7 +16,8 @@ void insertionSort(int arr[], int len) {
         int j = i -1;
         while (arr[j] > temp && j>= 0)
         {
-            arr[j+1] = arr[j];
+            arr[j+1] = arr[j]; //If you change values in the same function, no pointers needed.
+                                //If you want another function to change values, you must give it pointers.
             j--;
         }
       arr[j+1] = temp;  
