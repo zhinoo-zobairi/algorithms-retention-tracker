@@ -10,7 +10,7 @@ def recursive_list_reversal(items):
     if len(items) <= 1:
         return items
     else:
-        return [items[-1]] + recursive_list_reversal(items[:-1]) # int+list → TypeError
+        return [items[-1]] + recursive_list_reversal(items[:-1]) # int + list → TypeError
                                                                  # list + list → valid
 
 if __name__ == "__main__":
