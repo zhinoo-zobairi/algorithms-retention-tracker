@@ -7,13 +7,11 @@ Complete the implementation below to reinforce your understanding.
 '''
 
 def recursive_list_reversal(items):
-    """
-    Implementation of Recursive List Reversal
-    
-    TODO: Implement the algorithm from memory to reinforce your learning
-    """
-    # Your implementation here
-    pass
+    if len(items) <= 1:
+        return items
+    else:
+        return [items[-1]] + recursive_list_reversal(items[:-1]) # int+list → TypeError
+                                                                 # list + list → valid
 
 if __name__ == "__main__":
     test_data = [5, 2, 9, 1, 5, 6]
