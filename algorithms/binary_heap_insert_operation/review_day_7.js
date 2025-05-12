@@ -12,8 +12,13 @@
  * @returns {Array} - The processed array
  * TODO: Implement the algorithm from memory to reinforce your learning
  */
-function binary_heap_insert_operation(items) {
-    // Your implementation here
+function binary_heap_insert_operation(items, new_element) {
+    let i = items.length;
+    while (i > 1 && new_element > items[Math.floor(i / 2)]) {
+        items[i] = items[Math.floor(i / 2)];  // Moving parent down to the hole
+        i = Math.floor(i / 2);               // Moving the hole up to the parent
+    }
+    items[i] = new_element;
     return items;
 }
 
