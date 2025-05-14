@@ -15,7 +15,6 @@ def heap_deletion_and_sort_max_heap(items):
 
         heap_current_length -= 1 # Shrink the heap size; because we track it above in the while's start
 
-        
         deleted_elements.append(deleted_element) # Record the deleted root value, so that we can have a sorted list later
 
         i = 1 # What I've been waiting for: Start bubbling down from the root and restoring hierarchy
