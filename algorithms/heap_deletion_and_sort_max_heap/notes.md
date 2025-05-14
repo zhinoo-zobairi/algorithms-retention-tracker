@@ -1,5 +1,15 @@
-# Heap Deletion and Sort Max Heap
+# Heap Deletion and Sort Max Heap 
+## Skeleton code:
+```python
+heap = [None, 10, 8, 9, 5, 2]  # 1-based indexing
+deleted = []
 
+while heap_size > 0:
+    deleted.append(heap[1])
+    heap[1] = heap[heap_size]
+    heap_size -= 1
+    bubble_down() 
+````
 
 ## What I know about Deletion
 
