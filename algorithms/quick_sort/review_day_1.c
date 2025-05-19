@@ -1,33 +1,57 @@
-/**
- * Review Day 1 for Quick Sort
- * Created on 2025-05-19
- *
- * This is your review exercise for Quick Sort.
- * Complete the implementation below to reinforce your understanding.
- */
-
 #include <stdio.h>
-#include <stdlib.h>
 
-/**
- * Implementation of Quick Sort
- * TODO: Implement the algorithm from memory to reinforce your learning
- */
-void quick_sort(int items[], int size) {
-    /* Your implementation here */
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int hoare_partition(int *arr, int low, int high) {
+    int pivot = arr[low];
+    int i = low;
+    int j = high;
+
+    do {
+        do {
+            i++;
+        } while (arr[i] <= pivot);
+
+        do {
+            j--;
+        } while (arr[j] > pivot);
+
+        if (i < j) {
+            swap(&arr[i], &arr[j]);
+        } else {
+            return j;
+        }
+    } while (i < j);
+    
+    return j;
+}
+
+void quick_sort(int arr[], int low, int high) {
+    if (low < high) {
+        int p = hoare_partition(arr, low, high);
+        quick_sort(arr, low, p);
+        quick_sort(arr, p + 1, high);
+    }
 }
 
 int main() {
-    int test_data[] = {5, 2, 9, 1, 5, 6};
-    int size = sizeof(test_data) / sizeof(test_data[0]);
-    
-    quick_sort(test_data, size);
-    
-    printf("Result: ");
-    for (int i = 0; i < size; i++) {
-        printf("%d ", test_data[i]);
+    int arr[] = { 10, 7, 8, 9, 1, 5 };
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    arr[size] = 2147483647; 
+    size++; 
+
+    quick_sort(arr, 0, size - 1);
+
+    printf("Sorted array: ");
+    for (int i = 0; i < size - 1; i++) {
+        printf("%d ", arr[i]);
     }
     printf("\n");
-    
+
     return 0;
 }
