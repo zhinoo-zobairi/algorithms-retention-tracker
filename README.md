@@ -16,8 +16,8 @@ This repository automates and tracks my algorithm learning using GitHub-native t
   - `algorithms/merge_sort/notes.md`
   - `algorithms/merge_sort/code.py`
 - Spaced repetition reminders following .yaml creation will be sent on days:
-  - **1**, **3**, **7**, **14** after learning
-- Reminder shows up as a GitHub issue + email 📨 
+  - **1**, **3**, **7**, **14**, **28**, **56**, **112**, **224**, **365** after learning
+- Reminder shows up as a GitHub issue + email
 
 ---
 
@@ -42,7 +42,7 @@ This system is:
 - Post a confirmation comment on the issue that your first reminder is due tomorrow
 
 3. Each day, the system checks for review dates and sends a reminder if it’s:
-- Day 1, 3, 7, or 14 since the algorithm was added
+- Day 1, 3, 7, or 14, 28, 56, 112, 224, 365 since the algorithm was added
 
 ---
 
