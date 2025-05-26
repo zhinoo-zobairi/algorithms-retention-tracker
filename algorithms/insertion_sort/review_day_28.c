@@ -14,7 +14,24 @@
  * TODO: Implement the algorithm from memory to reinforce your learning
  */
 void insertion_sort(int items[], int size) {
-    /* Your implementation here */
+    int i, j;
+    for (i = 1; i < size; i++)
+    {
+        int key = items[i];
+        j = i - 1;
+        for (; j >= 0; j--)
+        {
+            if (items[j]>key)
+            {
+               items[j+1] = items[j]; 
+            }else
+            {
+                break;
+            }
+            
+        }
+        items[j+1] = key;
+    }
 }
 
 int main() {

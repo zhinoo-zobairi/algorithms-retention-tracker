@@ -21,8 +21,7 @@ public class InsertionSort {
             items[j+1] = temp;
         }
     }
-    
-    public static void main(String[] args) {
+  public static void main(String[] args) {
         int[] testData = {5, 2, 9, 1, 5, 6};
         insertion_sort(testData);
         System.out.println("Result: " + Arrays.toString(testData));
