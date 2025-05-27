@@ -8,3 +8,17 @@
 | 3️ | If `i < j`, then swap `A[i]` and `A[j]` | Yes | These two are on the wrong side and must be exchanged |
 | 4️ | Repeat while `i < j` | Yes | Keep going until pointers meet or cross: that’s your **partition boundary** |
 | 5️ | Once `i >= j`, exit the loop and swap pivot with `A[j]` | Yes | This places the pivot into its correct region (left ≤ pivot, right > pivot) |
+
+quick_sort([5, 2, 9, 1, 5, 6], 0, 5)
+│
+├── partition(...) → returns p = 2
+│
+├── quick_sort(..., 0, 1)   ← handles left half
+│   └── partition(...) → returns new p
+│   └── quick_sort(..., ...) (left half of left)
+│   └── quick_sort(..., ...) (right half of left)
+│
+└── quick_sort(..., 3, 5)   ← handles right half
+    └── partition(...) → returns new p
+    └── quick_sort(..., ...) (left half of right)
+    └── quick_sort(..., ...) (right half of right)
