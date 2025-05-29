@@ -20,12 +20,13 @@ void swap(int *a, int *b) { // We are stating that we expect pointers, not value
 }
 
 void recursive_list_reversal(int items[], int left, int right) {
-    if (left >= right) { // In odd-sized arrays, left == right exactly in the middle. But when size is evem they never exactly equal, hence the >!
+    if (left >= right) { // In odd-sized arrays, left == right exactly in the middle. But when size is even they never exactly equal, hence the >!
         return;
     }
     
     swap(&items[left], &items[right]);
-    recursive_list_reversal(items, left + 1, right - 1);
+    recursive_list_reversal(items, left + 1, right - 1); // Mutates original array, not quite what we wanted!
+
 }
 
 int main() {

@@ -16,9 +16,9 @@ I decided to cut off the last element at each step.
 
 Take the last element (lst[-1]),
 
-Recursively reverse the rest (lst[:-1]),
+Call the function recursively on the rest (lst[:-1])
 
-Put the last element in front of the reversed rest.
+When that returns, **prepend** the last element to the result
 
 ## Base Case
 
