@@ -9,12 +9,19 @@
 import java.util.Arrays;
 
 public class IterativeMergeSort {
-    /**
-     * Implementation of Iterative Merge Sort
-     * TODO: Implement the algorithm from memory to reinforce your learning
-     */
+    
     public static void iterative_merge_sort(int[] items) {
-        // Your implementation here
+        
+        for (int size = 1; size < items.length; size*=2) {
+            for (int start = 0; start < items.length; start += 2 * size) {
+                int mid = Math.min(start+size-1, items.length - 1);
+                int end = Math.min(start+ 2*size - 1, items.length - 1);
+                if (mid < end) {
+                Merge.merge(items, start, mid, end); // Only call merge if there’s actually a right half to merge into the left
+            }
+            }
+            
+        }
     }
     
     public static void main(String[] args) {
