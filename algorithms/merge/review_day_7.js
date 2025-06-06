@@ -49,7 +49,11 @@ function merge(items, low, mid, high) {
     return items;
 }
 
-// Test the implementation
-const testData = [2, 4, 7, 1, 5, 9];
-const result = merge(testData, 0, 2, 5); // Result: 1,2,4,5,7,9
-console.log(`Result: ${result}`);
+if (require.main === module) { // Without that, Node will run everything top-level inside my file (in iterative_merge_sort/review_day_7.js) even if it’s just an import.
+    // Test the implementation
+    const testData = [2, 4, 7, 1, 5, 9];
+    const result = merge(testData, 0, 2, 5); // Result: 1,2,4,5,7,9
+    console.log(`Result: ${result}`);
+}
+
+module.exports = { merge };

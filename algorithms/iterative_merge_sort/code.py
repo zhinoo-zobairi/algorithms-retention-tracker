@@ -12,7 +12,7 @@ def iterative_merge_sort(items):
             items[start:end+1] = merged  # OVERWRITE the sorted chunk
         size *=2
 
-if __name__ == "__main__":
+if __name__ == "__main__": #  That’s my execution guard. When I run this file directly with python iterative_merge_sort/code.py, the print(items) will execute; But when I import it from another file: from iterative_merge_sort.code import iterative_merge_sort. then __name__ != "__main__" so the test does not run 
     items = [38, 27, 43, 3, 9, 82, 10, 5]
     iterative_merge_sort(items)
     print(items)

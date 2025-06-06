@@ -8,12 +8,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "merge.h"
 
 /**
  * Implementation of Merge
  * TODO: Implement the algorithm from memory to reinforce your learning
  */
-void merge(int items[], int h, int mid, int l) {
+
+void merge(int items[], int l, int mid, int h) {
     int i = l;
     int j = mid +1;
     int k = 0;
@@ -46,11 +48,11 @@ void merge(int items[], int h, int mid, int l) {
         
 }
 
-int main() {
+int test_main() {
     int test_data[] = {2, 5, 9, 1, 5, 6};  // merge function expects two already sorted subarrays to merge together: Left: [2,5,9] Right: [1,5,6]
     int size = sizeof(test_data) / sizeof(test_data[0]);
     
-    merge(test_data, 5, 2, 0);
+    merge(test_data, 0, 2, 5);
     
     printf("Result: ");
     for (int i = 0; i < size; i++) {
