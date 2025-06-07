@@ -1,5 +1,28 @@
 # Iterative Merge Sort implementation
 from merge.code import merge
+
+"""
+HOW TO RUN THIS FILE:
+
+METHOD 1 (Recommended): Use module execution
+From the 'algorithms' directory, run:
+    python -m iterative_merge_sort.code
+
+METHOD 2: Add sys.path fix for direct execution  
+If you want to run directly with: python iterative_merge_sort/code.py
+You need to add this BEFORE the import:
+    import sys, os
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+WHY THE DIFFERENCE:
+- Both files import from sibling directory: 'from merge.code import merge'
+- Python's module resolution depends on the current working directory
+- Module execution (-m) preserves the algorithms/ working directory
+- Direct execution changes working directory to the script's location
+- This affects where Python looks for the 'merge' module
+
+"""
+
 def iterative_merge_sort(items):
     size = 1
     while size < len(items): # the last useful merge happens when the length of the sublists are in fact less than the original list's length; hence < and not <=
