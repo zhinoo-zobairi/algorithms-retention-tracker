@@ -9,17 +9,22 @@
 import java.util.Arrays;
 
 public class RecursiveMergeSort {
-    /**
-     * Implementation of Recursive Merge Sort
-     * TODO: Implement the algorithm from memory to reinforce your learning
-     */
-    public static void recursive_merge_sort(int[] items) {
-        // Your implementation here
+    public static void recursive_merge_sort(int[] items, int l, int h) {
+
+        if (l < h) {
+            int mid = (l + h) / 2;
+            recursive_merge_sort(items, l, mid);
+            recursive_merge_sort(items, mid + 1, h);
+            Merge.merge(items, l, mid, h);
+        } else {
+            return;
+        }
+       
     }
     
     public static void main(String[] args) {
         int[] testData = {5, 2, 9, 1, 5, 6};
-        recursive_merge_sort(testData);
+        recursive_merge_sort(testData, 0, testData.length - 1);
         System.out.println("Result: " + Arrays.toString(testData));
     }
 }
