@@ -1,3 +1,10 @@
+# C build artifacts
 *.class
 *.o
 review_day_1pull
+*.out
+*.exe
+*.dSYM/
+*.a
+*.so
+review_day_*
