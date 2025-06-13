@@ -256,6 +256,8 @@ Because they are **abstract models**: the way we *think about* organizing data, 
 > - Built on a **contiguous block of RAM**
 > - Memory is allocated either in the **stack** or **heap**
 > - Accessed via **indexing** (constant time)
+> - Once that block is claimed, there’s no guarantee more memory exists immediately next to it. You can’t “stretch” an array, memory doesn’t work like elastic 
+
 
 > Linked List
 > - Built using **nodes** that contain:
@@ -264,12 +266,139 @@ Because they are **abstract models**: the way we *think about* organizing data, 
 >- Nodes are **dynamically allocated in the heap**
 >- Accessed via **traversal** using pointers
 
----
+## Can We Increase the Size of an Array?
+
+### 🔴 No, Not Directly
+
+Arrays have **fixed size** once created because:
+
+- They’re allocated as **contiguous memory blocks**
+- You can’t “stretch” memory in place if the next space is taken
+
+
+### ✅ But Yes, Indirectly (The Trick)
+
+We simulate resizing by:
+
+1. Allocating a **larger block**
+2. **Copying** elements from the old array
+3. **Swapping the reference** to the new array
+4. Freeing the old one (in languages like C/C++)
+
+```c
+int* old = malloc(sizeof(int) * 5);
+int* new = malloc(sizeof(int) * 10);
+for (int i = 0; i < 5; i++) {
+    new[i] = old[i];
+}
+free(old);
+old = new;
+```
+
+### What About Python and JavaScript?
+
+Languages like Python and JavaScript *feel* like arrays stretch when you `append()` or `push()`, but under the hood:
+
+- The list/array has **extra reserved space**
+- If it still fits → No reallocation
+- If it’s full → It **does**:
+  ```
+  allocate larger → copy elements → update pointer
+  ```
+
+So memory doesn’t **stretch**, it just had **spare capacity** from the start.
+
+
+## How Much Do Python and Java Overallocate?
+
+Python and Java proactively allocate more space than currently needed, because they expect you’ll likely add more elements soon.
+
+This is called *overallocation* or *capacity buffering*, and it’s a deliberate performance optimization. 
+### Python (CPython)
+
+Python’s list is a wrapper around a dynamic array.
+#### How Python `list` Works Under the Hood
+
+Python’s `list` looks simple, but under the hood, it wraps a dynamic array written in C.
+
+### What Really Happens
+
+When you write:
+
+```python
+a = [10, 20, 30]
+```
+
+Python creates:
+
+- A **C array** that stores **pointers** to the actual values (not the values themselves). So `[10, 20, 30]` actually means:
+```
+[ ptr_to_10 | ptr_to_20 | ptr_to_30 ]
+```
+Each slot in the list points to a real number object **somewhere else** in memory, although Python is high-level, it is written in C (CPython is the default version of Python).
+That array of pointers is stored in a C array, just like you’d write in C:
+```
+PyObject* items[] = { &obj10, &obj20, &obj30 };
+```
+**So, we don’t see any of that, because Python abstracts it away; that’s the beauty of the “wrapper.” 
+
+> Python list = object that wraps this low-level array.**
+
+Why this is called a wrapper?
+
+> *Because Python doesn’t let you interact with the C array directly.*
+
+### Example: What Happens on `.append(x)`
+
+- If there's space → just insert the new pointer
+- If full:
+  1. Allocate bigger array
+  2. Copy old pointers
+  3. Add new pointer
+  4. Swap reference
+
+Internally, it reserves extra capacity, even if your logical length is 1 or when it does need to grow, it follows:
+```
+new_capacity = old_capacity * 1.125 + 6
+```
+
+- Adds ~12.5% extra space + buffer
+- Avoids frequent reallocations
+- Append has **amortized O(1)** time
+
+
+### Java (ArrayList)
+
+Java’s ArrayList defaults to capacity 10 even before any element is added.
+As it fills, it resizes by:
+
+```
+new_capacity = old_capacity + (old_capacity >> 1)
+```
+
+→ Effectively:
+
+```
+new_capacity = old_capacity * 1.5
+```
+
+- Grows by 50%
+- Prioritizes fewer resizes with some memory overhead
+
+### Summary
+
+| Language | Growth Factor | Initial Capacity | Resizes By         |
+|----------|---------------|------------------|---------------------|
+| Python   | ~1.125        | Dynamic           | Adds ~12.5% + buffer|
+| Java     | 1.5×          | 10                | Adds 50%            |
+
+> Both rely on: **allocate → copy → reassign**  
+> No real “stretching,” just smart allocation ahead of time.
+
 ## Abstract Data Types (ADT)
 
 > A conceptual model for organizing data and defining valid operations — while **hiding internal details**.
 
----
 
 ### What Does “Abstract” Mean?
 
@@ -278,8 +407,6 @@ Because they are **abstract models**: the way we *think about* organizing data, 
   - What the data structure **does**
   - What operations are **allowed**
   - Not **how** those operations are performed at the binary or memory level
-
----
 
 ### What Is a Data Type?
 
@@ -290,7 +417,6 @@ A **data type** is a combination of:
 > ✅ If we know **what the data holds** and **what can be done with it**,  
 > we’ve defined a **data type**.
 
----
 
 ### Primitive vs Abstract Data Types
 
@@ -302,7 +428,6 @@ A **data type** is a combination of:
 > OOP revolutionized programming by enabling us to define **our own data types** (classes/objects)  
 > and use them without needing to understand the internals.
 
----
 
 ### ADT = Interface, Not Implementation
 
@@ -313,7 +438,6 @@ You can think of an ADT like an **API**:
   - `enqueue()`, `dequeue()` for queue
 - You **don’t care** whether it’s implemented using an array or linked list.
 
----
 
 ### Summary
 
