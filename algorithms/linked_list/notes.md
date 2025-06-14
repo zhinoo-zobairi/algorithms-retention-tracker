@@ -66,3 +66,5 @@ void display(struct Node *head) {
 - Here, `head` is a pointer to the first node.
 - The loop visits each node and prints its data.
 - The traversal stops when the pointer reaches `NULL`, which marks the end of the list.
+
+## Hey previous node, in your next field, store the location of this brand new guy I just made.
