@@ -13,7 +13,20 @@
  * TODO: Implement the algorithm from memory to reinforce your learning
  */
 function counting_sort(items) {
-    // Your implementation here
+    if (items.length === 0) return items;
+    const max = Math.max(...items); // The ...items spreads the array into individual arguments, that's how Math.max works: expects comma-separated arguments, not an array.
+    const aux = new Array(max + 1).fill(0);
+    for (let i = 0; i < items.length; i++) {
+        aux[items[i]] ++; 
+    }
+    let k = 0;
+    for (let j = 0; j < aux.length; j++) {
+        while (aux[j] > 0) {
+        items[k] = j;
+        aux[j]--;
+        k++;
+        }
+    }  
     return items;
 }
 
