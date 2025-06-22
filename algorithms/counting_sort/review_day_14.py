@@ -12,8 +12,17 @@ def counting_sort(items):
     
     TODO: Implement the algorithm from memory to reinforce your learning
     """
-    # Your implementation here
-    pass
+    frequency = [0] * (max(items) + 1)
+
+    for i in range(0, len(items)):
+        frequency[items[i]] += 1
+    j = 0
+    for i in range(0, len(frequency)):
+        while frequency[i] > 0:
+            items[j] = i
+            frequency[i] -= 1
+            j += 1
+    return items
 
 if __name__ == "__main__":
     test_data = [5, 2, 9, 1, 5, 6]
