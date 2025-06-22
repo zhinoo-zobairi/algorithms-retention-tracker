@@ -4,7 +4,7 @@
 
 A stack data structure consists of two main components:
 
-1. **The actual data storage** - where elements are stored (like an array)
+1. **The actual data storage** - where elements are stored (like an array or linked list)
 2. **The stack structure/metadata** - properties that manage the data
 
 Think of it like **a car and its registration document**:

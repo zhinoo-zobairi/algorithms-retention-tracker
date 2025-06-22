@@ -6,7 +6,7 @@ def stack_operations():
         def __init__(self, size):
             self.size = size
             self.top = -1
-            self.array = [] * size  # in comparison to C, here we don't have address, it happens under the hood(reference)
+            self.array = [None] * size  # in comparison to C, here we don't have address, it happens under the hood(reference)
         
         def push(self, value):
             if self.top == self.size - 1:
