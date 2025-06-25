@@ -54,6 +54,16 @@ int hash_function(int key){
     return key % 10;
 }
 // For bulk insert and local ownership. Owns the hash table (e.g., Heads[10]) and calls insert() When you don’t need to iterate the bucket contents in a meaningful order — insert-at-head is king.
+/*
+Before:
+  heads_of_table[index] --> Node A --> Node B --> NULL
+
+After:
+  new_node -> Node A --> Node B by doing new_node->next = heads_of_table[index];
+
+Final:
+heads_of_table[index] --> new_node --> (old stuff) by doing heads_of_table[index] = new_node;
+*/
 void hashing_head(int items[], int size){
     struct Node* heads_of_table[10] = {NULL};
     for (int i = 0; i < size; i++)
