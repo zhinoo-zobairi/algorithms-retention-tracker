@@ -8,13 +8,38 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "../merge/merge.h"
+
 
 /**
  * Implementation of Iterative Merge Sort
  * TODO: Implement the algorithm from memory to reinforce your learning
  */
+int min(int a, int b) {
+    if (a < b)
+    {
+        return a;
+    }
+    
+    else return b;
+}
+
 void iterative_merge_sort(int items[], int size) {
-    /* Your implementation here */
+    for (int p = 1; p < size; p *= 2)
+    {
+        for (int i = 0; i < size; i += 2*p)
+        {
+            int l = i;
+            
+            int mid = min(i + p - 1, size - 1);
+
+            int h = min(i + 2 * p - 1, size - 1);
+
+            if (mid < size) merge(items, l, mid, h);
+        }
+        
+    }
+    
 }
 
 int main() {
