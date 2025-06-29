@@ -13,21 +13,97 @@
  * Implementation of Hashing Linear and Quadratic Probing
  * TODO: Implement the algorithm from memory to reinforce your learning
  */
-void hashing_linear_and_quadratic_probing(int items[], int size) {
-    /* Your implementation here */
+struct HashTable{
+    int size;
+    int* table;
+};
+
+struct HashTable* create_hash_table(int size) {
+    struct HashTable* ht = (struct HashTable*)malloc(sizeof(struct HashTable));
+    ht->size = size;
+    ht->table = (int*)calloc(size, sizeof(int)); // Allocate and initialize to 0
+    return ht;
+}
+
+int linear_probing(struct HashTable* ht, int index) {
+    for (int i = 0; i < ht->size; i++) {
+        int probe_index = (index + i) % ht->size;
+        if (ht->table[probe_index] == 0) {
+            return probe_index;
+        }
+    }
+    return -1; // Table is full
+}
+
+int quadratic_probing(struct HashTable* ht, int index) {
+    for (int i = 0; i < ht->size; i++) {
+        int probe_index = (index + i * i) % ht->size;
+        if (ht->table[probe_index] == 0) {
+            return probe_index;
+        }
+    }
+    return -1; // Table is full
+}
+
+int insert_linear(struct HashTable* ht, int key) {
+    int index = key % ht->size;
+    
+    if (ht->table[index] == 0) {
+        ht->table[index] = key;
+        return 1;
+    } else {
+        int probe_index = linear_probing(ht, index);
+        if (probe_index != -1) {
+            ht->table[probe_index] = key;
+            return 1;
+        } else {
+            printf("Hash table is full (linear)\n");
+            return 0;
+        }
+    }
+}
+
+int insert_quadratic(struct HashTable* ht, int key) {
+    int index = key % ht->size;
+    
+    if (ht->table[index] == 0) {
+        ht->table[index] = key;
+        return 1;
+    } else {
+        int probe_index = quadratic_probing(ht, index);
+        if (probe_index != -1) {
+            ht->table[probe_index] = key;
+            return 1;
+        } else {
+            printf("Hash table is full (quadratic)\n");
+            return 0;
+        }
+    }
+}
+
+void display(struct HashTable* ht) {
+    printf("Hash table: [");
+    for (int i = 0; i < ht->size; i++) {
+        if (i > 0) printf(", ");
+        printf("%d", ht->table[i]);
+    }
+    printf("]\n");
+}
+
+void destroy_hash_table(struct HashTable* ht) {
+    free(ht->table);
+    free(ht);
 }
 
 int main() {
-    int test_data[] = {5, 2, 9, 1, 5, 6};
-    int size = sizeof(test_data) / sizeof(test_data[0]);
+    struct HashTable* ht = create_hash_table(8);
     
-    hashing_linear_and_quadratic_probing(test_data, size);
+    insert_linear(ht, 10);
+    insert_linear(ht, 17);
+    insert_linear(ht, 27);
+    display(ht);
     
-    printf("Result: ");
-    for (int i = 0; i < size; i++) {
-        printf("%d ", test_data[i]);
-    }
-    printf("\n");
-    
+    destroy_hash_table(ht);
     return 0;
 }
+
