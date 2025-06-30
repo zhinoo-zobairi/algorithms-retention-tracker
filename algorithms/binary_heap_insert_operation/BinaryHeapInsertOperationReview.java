@@ -10,7 +10,8 @@ import java.util.Arrays;
 
 public class BinaryHeapInsertOperationReview {
     int[] heap;
-    int size
+    int size;
+    
     int count;
 
     BinaryHeapInsertOperationReview(int size){
