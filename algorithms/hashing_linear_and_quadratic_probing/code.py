@@ -8,8 +8,9 @@ class hash_table:
     def linear_probing(self, index):
         i = 0
         while i < self.size:
-            if self.hash_table[index + i] is None:
-                return i
+            probe_index = (index + i) % self.size
+            if self.hash_table[probe_index] is None:
+                return probe_index
             i += 1;
         return - 1 # Table is full
     def quadratic_probing(self, index):
