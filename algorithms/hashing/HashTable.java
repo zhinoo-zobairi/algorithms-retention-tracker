@@ -69,12 +69,11 @@ public class HashTable {
     public static void main(String[] args) {
     HashTable table = new HashTable(5); 
 
-    // Insert test
-    table.hashing(10);
-    table.hashing(15);
-    table.hashing(20);
-    table.hashing(3);
-    table.hashing(8);
+    table.insert_head(10);
+    table.insert_head(15);
+    table.insert_head(20);
+    table.insert_head(3);
+    table.insert_head(8);
 
     System.out.println("After inserting values:");
     table.printTable(); 
@@ -84,6 +83,7 @@ public class HashTable {
     System.out.println("\nDeleting 20 (head of chain): " + table.delete(20));
     table.printTable();
 }
+}
 
 class Node {
     int value;
@@ -92,5 +92,4 @@ class Node {
         this.value = value;
         this.next = null;
     }
-}
 }
