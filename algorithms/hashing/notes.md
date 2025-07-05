@@ -48,7 +48,8 @@ A high load factor means:
 
 1. This is called open addressing
 2. You use probing to find the next available slot
-Probing Techniques:
+
+#### Probing Techniques:
 1.	Linear Probing
 
 Try index + 1, index + 2, … until a free slot is found.
