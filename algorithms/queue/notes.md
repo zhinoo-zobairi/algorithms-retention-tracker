@@ -75,7 +75,7 @@ There are two common approaches for the `front` pointer:
 
 ### 2. Linked List Implementation
 
-#### Single Pointer (Rear only)
+### Single Pointer (Rear only)
 - Keep pointer to rear for enqueue
 - Traverse from rear to front for dequeue
 
@@ -83,7 +83,7 @@ There are two common approaches for the `front` pointer:
 - Dequeue requires traversal: O(n)
 - Inefficient for frequent dequeue operations
 
-#### Two Pointers (Front and Rear)
+### Two Pointers (Front and Rear)
 - Maintain pointers to both front and rear
 - Optimal for queue operations
 
