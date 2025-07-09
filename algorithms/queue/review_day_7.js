@@ -55,7 +55,6 @@ class ArrayQueue {
         }
     }
 }
-
 class Node {
     constructor(data) {
         this.data = data;
@@ -101,7 +100,7 @@ class LinkedListQueue {
         }
     }
 }
-
+if (require.main === module) {
 // Testing ArrayQueue
 console.log("Testing ArrayQueue:");
 const arrayQueue = new ArrayQueue(3);
@@ -128,3 +127,5 @@ linkedListQueue.enqueue(400);
 linkedListQueue.display(); // Output: Data is 200, Data is 300, Data is 400
 console.log("Dequeued:", linkedListQueue.dequeue()); // Output: 200
 linkedListQueue.display(); // Output: Data is 300, Data is 400
+module.exports = { LinkedListQueue, ArrayQueue };
+}
