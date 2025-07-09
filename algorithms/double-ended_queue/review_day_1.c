@@ -22,7 +22,7 @@ struct DoubleEndedQueue{
     struct Node* front;
     struct Node* rear;
     int size; // ← current number of elements
-}
+};
 struct DoubleEndedQueue* createDeque() {
     struct DoubleEndedQueue* deq = (struct DoubleEndedQueue*)malloc(sizeof(struct DoubleEndedQueue));
     deq->front = NULL;
@@ -36,7 +36,8 @@ struct Node* createNode(int data) {
     new_node->prev = NULL;
     new_node->next = NULL;
     new_node->data = data;
-}
+    return new_node;
+};
 
 void add_front(struct DoubleEndedQueue* deq, int data) {
     struct Node* new_node = createNode(data);
@@ -45,10 +46,10 @@ void add_front(struct DoubleEndedQueue* deq, int data) {
     }else{
     new_node->next = deq->front;
     deq->front->prev = new_node;
-    new_node = deq->front;
+    deq->front = new_node;
     }
     deq->size++;  // track number of elements
-}
+};
 
 void add_rear(struct DoubleEndedQueue* deq, int data) {
    struct Node* new_node = createNode(data);
@@ -60,7 +61,7 @@ void add_rear(struct DoubleEndedQueue* deq, int data) {
         deq->rear = new_node;
     } 
     deq->size++;
-}
+};
 
 void remove_front(struct DoubleEndedQueue* deq){
     if(deq->front == NULL && deq->rear == NULL){
@@ -77,7 +78,7 @@ void remove_front(struct DoubleEndedQueue* deq){
         free(old_front);
     }
     deq->size--;
-}
+};
 
 void remove_rear(struct DoubleEndedQueue* deq){
     if(deq->front == NULL && deq->rear == NULL){
@@ -94,7 +95,7 @@ void remove_rear(struct DoubleEndedQueue* deq){
         free(old_rear);
     }
     deq->size--;
-}
+};
 
 void display_dequeue(struct DoubleEndedQueue* deq){
     if(deq->front == NULL && deq->rear == NULL){
@@ -109,7 +110,7 @@ void display_dequeue(struct DoubleEndedQueue* deq){
         }
         printf("\n");
     }
-}
+};
 
 void display_dequeue_reverse(struct DoubleEndedQueue* deq) {
    if(deq->front == NULL && deq->rear == NULL){
@@ -117,7 +118,7 @@ void display_dequeue_reverse(struct DoubleEndedQueue* deq) {
         return; 
     }
     else{
-        current_deq = deq->rear;
+        struct Node* current_deq = deq->rear;
          while (current_deq != NULL){
         printf("%d",current_deq->data);
         current_deq = current_deq->prev;
@@ -130,13 +131,25 @@ int main() {
     int test_data[] = {5, 2, 9, 1, 5, 6};
     int size = sizeof(test_data) / sizeof(test_data[0]);
     
-    double-ended_queue(test_data, size);
+    struct DoubleEndedQueue* deq = createDeque();
     
-    printf("Result: ");
     for (int i = 0; i < size; i++) {
-        printf("%d ", test_data[i]);
+        add_rear(deq, test_data[i]);
     }
-    printf("\n");
+    
+    printf("Queue in forward order: ");
+    display_dequeue(deq);
+    
+    printf("Queue in reverse order: ");
+    display_dequeue_reverse(deq);
+    
+    printf("Removing elements from the front:\n");
+    while (deq->size > 0) {
+        remove_front(deq);
+        display_dequeue(deq);
+    }
+    
+    free(deq);
     
     return 0;
 }
