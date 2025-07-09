@@ -13,7 +13,7 @@
  * TODO: Implement the algorithm from memory to reinforce your learning
  */
 function priority_queue(items) {
-    // Your implementation here
+    
     return items;
 }
 

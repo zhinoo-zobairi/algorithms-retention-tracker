@@ -9,10 +9,7 @@
 import java.util.Arrays;
 
 public class PriorityQueue {
-    /**
-     * Implementation of Priority Queue
-     * TODO: Implement the algorithm from memory to reinforce your learning
-     */
+
     public static void priority_queue(int[] items) {
         // Your implementation here
     }
