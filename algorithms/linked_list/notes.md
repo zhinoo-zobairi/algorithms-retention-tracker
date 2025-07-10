@@ -68,3 +68,13 @@ void display(struct Node *head) {
 - The traversal stops when the pointer reaches `NULL`, which marks the end of the list.
 
 ## Hey previous node, in your next field, store the location of this brand new guy I just made.
+
+---
+### Pointer to a pointer
+
+![alt text](DoublePointer.jpeg)
+
+- A single pointer gives you access to the thing it points to.
+- A double pointer gives you access to the pointer itself — so you can reassign it.
+
+
