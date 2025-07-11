@@ -8,7 +8,12 @@ The hash function transforms a key (like a string or number) into an array index
 In other words, hash function receives an input and produces an output which is the index where we store the input.
 
 ## Round 2: Collision Thinking
-
+### Key space can be near-infinite, but storage space is finite.
+That's why hashing is not guaranteed one-to-one:
+- Multiple keys can map to the same index → called a collision.
+- The ideal case is one-to-one (injective), but practically, collisions are inevitable if:
+- Key space ≫ table space (pigeonhole principle = If you put n + 1 pigeons into n pigeonholes, at least one pigeonhole has ≥ 2 pigeons.).
+- Hash function is imperfect.
 ### Q2. Let’s say your hash function maps both 25 and 65 to index 5. What do we call this situation, and why does it happen even if the hash function is well-designed?
 
 We want a small, fast-access structure (e.g., array of size 10), not a gigantic array that covers every possible key (e.g., all 32-bit integers).
@@ -53,6 +58,13 @@ A high load factor means:
 1.	Linear Probing
 
 Try index + 1, index + 2, … until a free slot is found.
+
+Trade-Off: 
+
+Clustering = when keys clump together in consecutive slots.
+You hit an occupied slot → move to next → occupied → next → occupied…
+
+You get longer probe sequences, and average time drifts from O(1) toward O(n).
 
 `h(key) + i  % table_size`
 
