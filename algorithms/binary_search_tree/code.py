@@ -47,6 +47,30 @@ class BinarySearchTree:
         else:
             node.left = self.recursive_insert(node.left, new)
         return node # it returns the parent with now an updated left or right field
+    
+    """
+    When I face a question I cannot answer myself, I turn to a colleague for help.
+
+    If that colleague directly knows the answer,
+    they process it in their mind and return the result to me.
+
+    But if they do not know the answer right away,
+    there is a process running in their mind that says:
+
+    “Okay, I need to go ask person B.”
+
+    So they pass the question on to person B.
+
+    Person B then goes through the same logic:
+    they check if they can answer it directly
+    and if not, they pass it even further down.
+
+    Once someone finally figures it out,
+    the result travels back up,
+    person by person,
+    until it reaches me.
+
+    """
         
 
     def iterative_search(self, key):
@@ -85,7 +109,9 @@ class BinarySearchTree:
             node.left = self.delete(node.left, key)
         elif key > node.value:
             node.right = self.delete(node.right, key)
-        else:
+
+        else: # the key and the node match
+            
             # Case 1: No children
             if node.left is None and node.right is None:
                 return None
