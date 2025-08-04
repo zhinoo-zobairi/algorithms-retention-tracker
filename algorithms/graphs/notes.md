@@ -160,7 +160,7 @@ Optimized with:
 
 ## Prim’s Algorithm
 Finds a minimum spanning tree by growing a single tree.
-- Start from any vertex.
+- Start from **any** vertex.
 - Use a min-priority queue to select the edge with the smallest weight that connects a visited vertex to an unvisited vertex.
 - Add the selected edge and vertex to the tree.
 - Repeat until all vertices are included.
