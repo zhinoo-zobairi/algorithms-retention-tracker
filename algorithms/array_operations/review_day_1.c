@@ -18,7 +18,7 @@ struct Array {
     int length;
     int *items;
 };
-// like a constructor in Java/Python:
+// like a constructor in Java/Python, the struct itself is on the stack (e.g., inside main or passed by value). The buffer (items) is on the heap, allocated with malloc. We don’t need a struct Array** because the struct itself is not malloc’d. We just pass struct Array* to initialize the buffer.
 void array_operations_create(struct Array *array, int size){
     array->items = (int*)malloc(sizeof(int) * size); 
     array->length = 0;
