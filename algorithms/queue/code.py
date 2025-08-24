@@ -114,6 +114,9 @@ class LinkedListQueue:
             if self.front is None: # if this was the last node in the queue:
                 self.rear = None
             return deleted
+    
+    def is_empty(self):
+        return self.front is None
 
     def display(self):
         if self.front == None:

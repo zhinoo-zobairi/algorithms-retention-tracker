@@ -2,8 +2,13 @@
 *.class
 *.o
 review_day_1pull
+review_day_1
 *.out
 *.exe
 *.dSYM/
 *.a
 *.so
+
+# Python artifacts
+__pycache__/
+*.pyc

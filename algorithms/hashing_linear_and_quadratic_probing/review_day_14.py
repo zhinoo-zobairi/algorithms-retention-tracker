@@ -6,16 +6,38 @@ This is your review exercise for Hashing Linear and Quadratic Probing.
 Complete the implementation below to reinforce your understanding.
 '''
 
-def hashing_linear_and_quadratic_probing(items):
-    """
-    Implementation of Hashing Linear and Quadratic Probing
-    
-    TODO: Implement the algorithm from memory to reinforce your learning
-    """
-    # Your implementation here
-    pass
+class HashTable:
+    def __init__(self, size):
+        self.size = size
+        self.table = [None for _ in range(size)]
+
+
+    def hash_function(self, key):
+        return key % self.size
+    def linear_probing(self, index):
+        start_index = index
+        while self.table[index] is not None:
+            index = (index + 1) % self.size
+            if index == start_index:
+                raise Exception("Hash table is full")
+        return index
+
+
+    def insert(self, key):
+        index = self.hash_function(key)
+        if self.table[index] is not None:
+            index = self.linear_probing(index)
+        self.table[index] = key
+
+
+    def display(self):
+        for i, value in enumerate(self.table):
+            print(f"Index {i}: {value}")
+
 
 if __name__ == "__main__":
-    test_data = [5, 2, 9, 1, 5, 6]
-    result = hashing_linear_and_quadratic_probing(test_data)
-    print(f"Result: {result}")
+    table = HashTable(10)
+    table.insert(60)
+    table.insert(10)
+    table.insert(600)
+    table.display()

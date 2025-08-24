@@ -1,25 +1,25 @@
 /**
- * Review Day 56 for Quick Sort
- * Created on 2025-07-13
+ * Review Day 56 for Linked List
+ * Created on 2025-08-06
  *
- * This is your review exercise for Quick Sort.
+ * This is your review exercise for Linked List.
  * Complete the implementation below to reinforce your understanding.
  */
 
 import java.util.Arrays;
 
-public class QuickSort {
+public class LinkedList {
     /**
-     * Implementation of Quick Sort
+     * Implementation of Linked List
      * TODO: Implement the algorithm from memory to reinforce your learning
      */
-    public static void quick_sort(int[] items) {
+    public static void linked_list(int[] items) {
         // Your implementation here
     }
     
     public static void main(String[] args) {
         int[] testData = {5, 2, 9, 1, 5, 6};
-        quick_sort(testData);
+        linked_list(testData);
         System.out.println("Result: " + Arrays.toString(testData));
     }
 }
