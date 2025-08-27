@@ -33,8 +33,26 @@ int balanceFactor(struct Node* n){
     return lh - rh;
 }
 
-struct Node* rotateRight(struct Node* y);
-struct Node* rotateLeft(struct Node* x);
+struct Node* rotateRight(struct Node* y){
+    // Before reassigning pointers, grab(cache) any you’ll need later:
+    struct Node* new_root = y->lchild;  // The left child of our root(y) is not gonna remain left child of it. It will get promoted to the new root. So, we cache it.
+    struct Node* middle = new_root->rchild;  // This has to be cached, because it won't stay the right child of that node that is becoming the new root anymore. It will be the left child of the former root!
+    new_root->rchild = y;  // y (the original parent) is now the right child of new_root
+    y->lchild = middle;
+    // update the height of lower nodes first, because their height values feed into the height of the upper node:
+    y->height = 1 + maxHeight(y->lchild, y->rchild);
+    new_root->height = 1 + maxHeight(new_root->lchild, new_root->rchild);
+    return new_root;
+}
+struct Node* rotateLeft(struct Node* y){
+    struct Node* new_root = y->rchild;
+    struct Node* middle = new_root->lchild;
+    y->rchild = middle;
+    new_root->lchild = y;
+    y->height = 1 + maxHeight(y->lchild, y->rchild);
+    new_root->height = 1 + maxHeight(new_root->lchild, new_root->rchild);
+    return new_root;
+}
 
 
 struct Node* insert(struct Node* parent, int key){ // It takes a pointer to the current root of the subtree (parent). And it returns a pointer to the root of the (possibly updated) subtree.
@@ -60,20 +78,24 @@ struct Node* insert(struct Node* parent, int key){ // It takes a pointer to the 
             return parent;
         }
         parent->height = 1 + maxHeight(parent->lchild, parent->rchild);
+
         int bf = balanceFactor(parent);
-        if (bf > 1) { // left-heavy
-            // TODO: LL, LR; Inspect balanceFactor(parent->lchild) to distinguish:
+
+        if (bf > 1) { // left-heavy(LR- or LL-imbalance)
+
             if (balanceFactor(parent->lchild) >= 0) return rotateRight(parent);
-            else // Perform LR
+
+            else
             {
                 parent->lchild = rotateLeft(parent->lchild);
                 return rotateRight(parent);
             }
             
-        } else if(bf < -1) { // right-heavy
-            // TODO: RR, RL: Inspect balanceFactor(parent->rchild) to distinguish:
+        } else if(bf < -1) { // right-heavy(RL- or RR-imbalance)
+
             if (balanceFactor(parent->rchild) <= 0) return rotateLeft(parent);
-            else // Perform RL
+
+            else
             {
                 parent->rchild = rotateRight(parent->rchild);
                 return rotateLeft(parent);
@@ -84,18 +106,24 @@ struct Node* insert(struct Node* parent, int key){ // It takes a pointer to the 
     }
 }
 
+void inorder(struct Node* n) {
+    if (!n) return;
+    inorder(n->lchild);
+    printf("%d ", n->value);
+    inorder(n->rchild);
+}
 
 int main() {
     int test_data[] = {5, 2, 9, 1, 5, 6};
     int size = sizeof(test_data) / sizeof(test_data[0]);
-    
-    avl_trees(test_data, size);
-    
-    printf("Result: ");
+
     for (int i = 0; i < size; i++) {
-        printf("%d ", test_data[i]);
+        root = insert(root, test_data[i]); // "root" has been defined in the last bit of the struct above: *root = NULL, declares a global variable:
     }
+
+    printf("Inorder traversal of AVL tree: ");
+    inorder(root); // For AVL trees (and all BSTs): inorder = ascending
     printf("\n");
-    
+
     return 0;
 }
