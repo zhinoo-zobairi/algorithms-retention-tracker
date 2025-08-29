@@ -119,6 +119,7 @@ struct Node {
     int data;
     struct Node* next;
 };
+
 struct LinkedQueue {
     struct Node* front;
     struct Node* rear;
