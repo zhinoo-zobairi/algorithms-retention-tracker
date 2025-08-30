@@ -81,6 +81,45 @@ Use a second hash function to determine the step size:
 `h1(key) + i * h2(key)`
 
 ## Round 6: Programming
+
+### A hash table with many slots
+
+Each slot must hold a pointer to the head of a linked list.
+	•	Slot 0 → head of list 0
+	•	Slot 1 → head of list 1
+	•	…
+	•	Slot 9 → head of list 9
+
+That means we need an array of Node pointers.
+
+---
+
+In C, an array of Node pointers looks like:
+```
+struct Node* buffer[10];
+````
+But this locks the size to 10.
+To make it dynamic, we declare it as a pointer to pointer:
+```
+struct Node** buffer;
+````
+Buffer itself is a pointer.	Each element in that array is another pointer (struct Node*):
+>So type = pointer to pointer.
+
+>struct Node** buffer is address of an array of (struct Node*).
+
+Now buffer points to an array like this:
+```
+buffer
+ ↓
++-----+-----+-----+-----+ ... (capacity times)
+|  *  |  *  |  *  |  *  |
++-----+-----+-----+-----+
+  |     |     |     |
+ NULL  NULL  NULL  NULL
+ ```
+Each buffer[i] is a struct Node* (head of a list).
+
 ### In chaining, each bucket is a linked list: Just think of the bucket as a standalone linked list
 
 > In order to create a chain like `Heads[3] → [5] → [10] → [20] → [30]`, I need to make sure I don’t lose what Heads[3] was already pointing to. That means: before I assign Heads[3] = newNode, I must first save the old value of Heads[3], which is the address of the node holding 10 into newNode->next.
