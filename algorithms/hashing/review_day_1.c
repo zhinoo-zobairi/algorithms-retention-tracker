@@ -64,8 +64,7 @@ After:
 Final:
 heads_of_table[index] --> new_node --> (old stuff) by doing heads_of_table[index] = new_node;
 */
-void hashing_head(int items[], int size){
-    struct Node* heads_of_table[10] = {NULL};
+void hashing_head(struct Node* heads_of_table[], int items[], int size){
     for (int i = 0; i < size; i++)
     {
         int index = hash_function(items[i]);
@@ -75,7 +74,6 @@ void hashing_head(int items[], int size){
         heads_of_table[index] = new_node;
     }
 }
-
 /*
 When performing tail insertion during hashing, we loop through each input value.
 For each value:
@@ -85,8 +83,7 @@ For each value:
 - ✅ If no → traverse the linked list until the last node (where node->next == NULL), and then attach the new node at the end.
 */
 
-void hashing_tail(int items[], int size){
-    struct Node* heads_of_table[10] = {NULL};
+void hashing_tail(struct Node* heads_of_table[], int items[], int size){
      for (int i = 0; i < size; i++)
     {
         int index = hash_function(items[i]);
@@ -126,18 +123,19 @@ void print_table(struct Node* Heads[], int size){ // passing a hash table — an
     
 }
 
-
 int main() {
     int test_data[] = {5, 2, 9, 1, 5, 6};
-    
     int size = sizeof(test_data) / sizeof(test_data[0]);
-    
-    hashing_tail(test_data, size);
-    hashing_head(test_data, size);
-    struct Node* new[10] = {NULL};
 
-    insert(&new[1], 10, 1); // explicitly inserting 10 into bucket 1
+    struct Node* heads[10] = {NULL};
 
-    print_table(new, 10);    
+    // Insert all keys at tail
+    hashing_tail(heads, test_data, size);
+
+    // Insert one manually at head in bucket 1
+    insert(&heads[1], 10, 0);
+
+    print_table(heads, 10);    
+
     return 0;
 }
