@@ -13,11 +13,18 @@
  * TODO: Implement the algorithm from memory to reinforce your learning
  */
 function insertion_sort(items) {
-    // Your implementation here
+     for (let index = 1; index < items.length; index++) {
+        const temp = items[index];
+        let j = index -1;
+        while (j >= 0 && items[j] > temp) {
+            items[j+1] = items[j];
+            j = j - 1;
+        }
+        items[j+1] = temp;
+     }
     return items;
 }
 
-// Test the implementation
 const testData = [5, 2, 9, 1, 5, 6];
 const result = insertion_sort(testData);
 console.log(`Result: ${result}`);
