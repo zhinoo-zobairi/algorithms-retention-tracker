@@ -12,8 +12,33 @@
  * @returns {Array} - The processed array
  * TODO: Implement the algorithm from memory to reinforce your learning
  */
+function find_max(items) {
+    let biggest = items[0];
+    for (let i = 0; i < items.length; i++) {
+        if (items[i] > biggest) {
+            biggest = items[i];
+        }
+    }
+    return biggest;
+}
 function counting_sort(items) {
-    // Your implementation here
+    if (items.length === 0) return items;
+    const maximum_element = find_max(items);
+    let aux_arr = [];
+    for (let i = 0; i <= maximum_element; i ++) {
+        aux_arr[i] = 0;
+    }
+    for (let i = 0; i < items.length; i ++) {
+        aux_arr[items[i]] += 1; 
+    }
+    let j = 0;
+    for (let i = 0; i <= maximum_element; i ++) {
+        while (aux_arr[i] !== 0) {
+            items[j] = i;
+            aux_arr[i] --;
+            j++;
+        }
+    }
     return items;
 }
 
