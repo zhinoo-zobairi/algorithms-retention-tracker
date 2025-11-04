@@ -17,7 +17,7 @@ class Deque:
 
     def add_front(self, data) -> None: # we add the node and decrement front
         """
-        In an array-based deque front is often treated as a numeric index. We decrement front when inserting at the front OR increment rear when inserting at the rear. In a linked list-based deque, however: front is a pointer to a node, not an index. There’s no numeric shifting, only pointer re-linking. We don’t do front = front - 1. Instead, we insert a new node in front of the current one, and say: self.front = new_node
+        In an array-based deque front is often treated as a numeric index. We decrement front when inserting at the front OR increment rear when inserting at the rear. In a linked list-based deque, however: front ends up pointing to the newly inserted node. front is a pointer to a node, not an index. There’s no numeric shifting, only pointer re-pointing. We don’t do front = front - 1. Instead, we insert a new node in front of the current one, and say: self.front = new_node
         """
         new_node = Node(data)
         if self.front is None and self.rear is None:
