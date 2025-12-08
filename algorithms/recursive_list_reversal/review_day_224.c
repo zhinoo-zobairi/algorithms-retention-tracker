@@ -13,8 +13,19 @@
  * Implementation of Recursive List Reversal
  * TODO: Implement the algorithm from memory to reinforce your learning
  */
-void recursive_list_reversal(int items[], int size) {
-    /* Your implementation here */
+void swap(int* a, int* b){
+    int temp = *a;
+    *a = *b;
+    *b = temp
+}
+void recursive_list_reversal(int items[], int i, int j) {
+if(i >= j){
+    return
+    }
+else{
+    swap(&i, &j)
+    recursive_list_reversal(int items[], i+1, j-1)
+    }
 }
 
 int main() {
