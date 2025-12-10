@@ -81,8 +81,8 @@ int main() {
     // Free the memory:
     while (n != NULL) { 
         struct Node* next = n->p;  // Read the next house's address first and write it down somewhere
-        free(n);                   // Then burn down the current house
-        n = next;                  // Move to the next house by updating your navigator and entering the address you wrote down
+        free(n);                   // Then burn down the current house. n is just a pointer variable: a slot on the stack that stores an address. When I call free(n), I invalidate the memory that n was pointing to, but I do not invalidate the pointer variable itself.
+        n = next;                  // Move to the next house by updating your navigator and entering the address I wrote down. It would be Illegal to: n->p after free(n)
     }
 
     // Method 2: Loop Creation
