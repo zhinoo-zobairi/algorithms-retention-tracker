@@ -35,7 +35,7 @@ public class HashTable {
         }
     }
 
-    public boolean contains(int data) {
+    public boolean contains(int data) { // This method should use the hash function to directly check only the relevant bucket for the given data, not all buckets. It is inefficient, because it searches every node in every bucket, which defeats the purpose of hashing.
         for (int i = 0; i < buckets.length; i++) {
             Node temp = buckets[i];
             while (temp != null) {
