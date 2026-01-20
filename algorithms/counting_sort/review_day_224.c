@@ -8,13 +8,39 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
 /**
  * Implementation of Counting Sort
  * TODO: Implement the algorithm from memory to reinforce your learning
  */
+int max_finder(int items[], int size){
+    int max = items[0];
+    for (int i = 1; i < size; i++)
+    {
+        if (items[i] > max)
+        {
+            max = items[i];
+        }
+    }
+    return max;
+}
+
 void counting_sort(int items[], int size) {
-    /* Your implementation here */
+    int max = max_finder(items, size);
+    int counter[max+1] = {0};
+    for (int i = 0; i < size; i++)
+    {
+        counter[items[i]]++;
+    }
+    int k = 0;
+    for (int i = 0; i < max+1; i++)
+    {
+        while (counter[i] != 0)
+        {
+            items[k] = i;
+            counter[i]--;
+            k++;
+        }
+    }
 }
 
 int main() {
